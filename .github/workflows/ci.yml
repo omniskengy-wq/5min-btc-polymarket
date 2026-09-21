@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    name: Validate scripts
+    runs-on: [self-hosted, Linux, X64, syntharian]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate Python scripts
+        run: python3 -m compileall -q scripts
+
+      - name: Validate shell scripts
+        run: |
+          for script in scripts/*.sh; do
+            bash -n "$script"
+          done
+
+      - name: Check required repository files
+        run: |
+          test -f README.md
+          test -f SKILL.md
+          test -f CONTOUR.md
+          test -f config/btc_5m_profiles.yaml

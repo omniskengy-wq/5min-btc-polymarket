@@ -115,3 +115,14 @@ Use your own risk limits, daily loss caps, and capital controls.
 - Open a PR to `main`
 
 PRs are welcome.
+
+## CI
+
+GitHub Actions is the primary routine CI, diagnostics, and certification surface
+while the Syntharian self-hosted runner fleet is healthy. Its validation job
+checks the repository's Python and shell scripts without starting a trading
+process or using credentials.
+
+CircleCI is intentionally preserved as an independent secondary clean-room
+check, second opinion, and fallback certification surface. It runs the same
+repository-native validation gates and is not a replacement for GitHub Actions.

@@ -1,0 +1,29 @@
+version: 2.1
+
+jobs:
+  validate:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - run:
+          name: Validate Python scripts
+          command: python -m compileall -q scripts
+      - run:
+          name: Validate shell scripts
+          command: |
+            for script in scripts/*.sh; do
+              bash -n "$script"
+            done
+      - run:
+          name: Check required repository files
+          command: |
+            test -f README.md
+            test -f SKILL.md
+            test -f CONTOUR.md
+            test -f config/btc_5m_profiles.yaml
+
+workflows:
+  validate:
+    jobs:
+      - validate
